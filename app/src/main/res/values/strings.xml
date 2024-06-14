@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">User info</string>
+    <string name="generic_error">Un problema ha ocurrido, intente luego</string>
+    <string name="internet_error">Revisa tu conexión a internet</string>
+</resources>
