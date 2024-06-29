@@ -1,15 +1,21 @@
 package com.jhonny.social.presenter.main
 
-import com.jhonny.social.data.dataOrNull
-import com.jhonny.social.data.getError
-import com.jhonny.social.data.isError
-import com.jhonny.social.data.isSuccess
+
+
+import android.util.Log
 import com.jhonny.social.domain.usecases.GetUserByNameUseCase
 import com.jhonny.social.domain.usecases.GetUserUseCase
 import com.jhonny.social.extensions.launch
 import com.jhonny.social.presenter.MainActivity
 import com.jhonny.social.presenter.base.BaseViewModel
 import com.jhonny.social.presenter.entities.UserItemPresentation
+import com.jhonny.social.presenter.errors.dataOrNull
+import com.jhonny.social.presenter.errors.getData
+import com.jhonny.social.presenter.errors.getError
+import com.jhonny.social.presenter.errors.isError
+import com.jhonny.social.presenter.errors.isSuccess
+import com.jhonny.social.presenter.mapper.UserMapper
+import com.jhonny.social.presenter.mapper.toPresentationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,11 +48,14 @@ class MainViewModel @Inject constructor(
         if (textToSearch.isEmpty())
             launch {
                 isUserCalled = true
-                getUserUseCase(page).let { result ->
+                getUserUseCase.execute(page).toPresentationResult().let { result ->
+                    Log.i("UserRemoteDataSourceImpl", "getUsers: $result")
                     when {
                         result.isSuccess ->
-                            result.dataOrNull()?.let { userPresentation ->
-                                _user.value += (userPresentation.list ?: emptyList())
+                            result.dataOrNull()?.let { domainUser ->
+                                val userPresentation =UserMapper().map(domainUser)
+                                Log.i("UserRemoteDataSourceImpl", "userPresentation.list: ${userPresentation.list}")
+                                _user.value += userPresentation.list ?: emptyList()
                                 updateLocalList()
                             }
                         result.isError -> {
@@ -83,11 +92,11 @@ class MainViewModel @Inject constructor(
                 textToSearch = beerName
                 if (textToSearch.isNotEmpty()) {
                     launch {
-                        getUserByNameUseCase(beerName).let { result ->
+                        getUserByNameUseCase.execute(beerName).toPresentationResult().let { result ->
                             when {
                                 result.isSuccess ->
                                     result.dataOrNull()?.let { beerPresentation ->
-                                        _user.value = beerPresentation.list ?: emptyList()
+                                        _user.value += (beerPresentation.list as? List<*>)?.filterIsInstance<UserItemPresentation?>() ?: emptyList()
                                         updateLocalList()
                                     }
 
