@@ -1,4 +1,4 @@
-package com.jhonny.social.presenter.errors
+package com.jhonny.social.presenter.entities
 
 import com.jhonny.social.data.entities.ErrorCodeServer
 import com.jhonny.social.data.entities.Failure

@@ -6,7 +6,7 @@ import com.jhonny.social.data.entities.user.remote.UserRemoteDataSource
 
 import com.jhonny.social.data.map
 import com.jhonny.social.domain.entities.DomainUser
-import com.jhonny.social.domain.errors.Result
+import com.jhonny.social.domain.entities.Result
 import com.jhonny.social.domain.repository.UserDataSource
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.jhonny.social.data.entities.user.mapper
 
-import com.jhonny.social.domain.errors.Result
+import com.jhonny.social.domain.entities.Result
 
 
 

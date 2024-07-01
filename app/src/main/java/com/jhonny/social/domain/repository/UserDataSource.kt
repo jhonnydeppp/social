@@ -1,7 +1,7 @@
 package com.jhonny.social.domain.repository
 
 import com.jhonny.social.domain.entities.DomainUser
-import com.jhonny.social.domain.errors.Result
+import com.jhonny.social.domain.entities.Result
 
 interface UserDataSource {
 

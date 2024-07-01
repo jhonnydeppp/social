@@ -1,4 +1,4 @@
-package com.jhonny.social.domain.errors
+package com.jhonny.social.domain.entities
 
 import com.jhonny.social.data.entities.ErrorCodeServer
 import com.jhonny.social.data.entities.Failure
