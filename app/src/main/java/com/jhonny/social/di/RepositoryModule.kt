@@ -18,7 +18,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun cocktailRepositoryProvider(
+    fun userRepositoryProvider(
         userRemoteDataSource: UserRemoteDataSource,
         userMapper: UserMapper
     ) = UserRepository(
@@ -28,7 +28,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun cocktailDataSourceImplProvider(
+    fun userDataSourceImplProvider(
         userService: UserService
     ) = UserRemoteDataSourceImpl(
         userService
@@ -36,7 +36,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun cocktailDataSourceProvider(
+    fun userDataSourceProvider(
         userRemoteDataSource: UserRemoteDataSource,
         userMapper: UserMapper
     ): UserDataSource = UserRepository(
@@ -46,7 +46,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun cocktailRemoteDataSourceProvider(
+    fun userRemoteDataSourceProvider(
         userService: UserService
     ): UserRemoteDataSource = UserRemoteDataSourceImpl(
         userService

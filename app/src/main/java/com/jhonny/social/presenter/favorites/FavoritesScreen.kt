@@ -39,7 +39,7 @@ private lateinit var viewModel: FavoriteViewModel
 fun FavoritesScreen(navController: NavController) {
     viewModel = hiltViewModel()
     viewModel.getUsers()
-    val userList by viewModel.beer.collectAsState()
+    val userList by viewModel.user.collectAsState()
     val errorHandling by viewModel.errorHandling.collectAsState()
     MainTheme {
         // A surface container using the 'background' color from the theme
@@ -91,7 +91,7 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
             .fillMaxWidth()
             .clickable {
                 navController?.currentBackStackEntry?.savedStateHandle?.set(
-                    key = "beer",
+                    key = "user",
                     value = user
                 )
                 navController?.navigate("${AppScreens.DetailScreen.route}/${user?.name?.first}")

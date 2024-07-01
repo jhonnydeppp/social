@@ -14,12 +14,12 @@ class UserRepository @Inject constructor(private val userRemoteDataSource: UserR
                                          private val userMapper: UserMapper
 ): UserDataSource {
 
-    override suspend fun getCocktails(page: Int): Result<DomainUser?> {
-        return userRemoteDataSource.getCocktails(page)
+    override suspend fun getUsers(page: Int): Result<DomainUser?> {
+        return userRemoteDataSource.getUsers(page)
             .map(userMapper::responseToDomain).toDomainResult()
     }
 
-    override suspend fun getCocktailsByName(name: String) = userRemoteDataSource.getCocktailsByName(name)
+    override suspend fun getUsersByName(name: String) = userRemoteDataSource.getUsersByName(name)
         .map(userMapper::responseToDomain).toDomainResult()
 
 }

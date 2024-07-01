@@ -2,7 +2,6 @@ package com.jhonny.social.presenter.main
 
 
 
-import android.util.Log
 import com.jhonny.social.domain.usecases.GetUserByNameUseCase
 import com.jhonny.social.domain.usecases.GetUserUseCase
 import com.jhonny.social.extensions.launch
@@ -10,7 +9,6 @@ import com.jhonny.social.presenter.MainActivity
 import com.jhonny.social.presenter.base.BaseViewModel
 import com.jhonny.social.presenter.entities.UserItemPresentation
 import com.jhonny.social.presenter.errors.dataOrNull
-import com.jhonny.social.presenter.errors.getData
 import com.jhonny.social.presenter.errors.getError
 import com.jhonny.social.presenter.errors.isError
 import com.jhonny.social.presenter.errors.isSuccess
@@ -38,9 +36,8 @@ class MainViewModel @Inject constructor(
     private var page: Int = 1
     private var isUserCalled = false
 
-    fun getDrinks() = user
-    fun setDrinks(beer: List<UserItemPresentation>){
-        _user.value = beer
+    fun setUsers(user: List<UserItemPresentation>){
+        _user.value = user
     }
 
     fun getUsers() {
@@ -49,12 +46,10 @@ class MainViewModel @Inject constructor(
             launch {
                 isUserCalled = true
                 getUserUseCase.execute(page).toPresentationResult().let { result ->
-                    Log.i("UserRemoteDataSourceImpl", "getUsers: $result")
                     when {
                         result.isSuccess ->
                             result.dataOrNull()?.let { domainUser ->
                                 val userPresentation =UserMapper().map(domainUser)
-                                Log.i("UserRemoteDataSourceImpl", "userPresentation.list: ${userPresentation.list}")
                                 _user.value += userPresentation.list ?: emptyList()
                                 updateLocalList()
                             }
@@ -87,16 +82,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-            fun geBeersByName(beerName: String) {
+            fun getUserByName(userName: String) {
                 _user.value = emptyList()
-                textToSearch = beerName
+                textToSearch = userName
                 if (textToSearch.isNotEmpty()) {
                     launch {
-                        getUserByNameUseCase.execute(beerName).toPresentationResult().let { result ->
+                        getUserByNameUseCase.execute(userName).toPresentationResult().let { result ->
                             when {
                                 result.isSuccess ->
-                                    result.dataOrNull()?.let { beerPresentation ->
-                                        _user.value += (beerPresentation.list as? List<*>)?.filterIsInstance<UserItemPresentation?>() ?: emptyList()
+                                    result.dataOrNull()?.let { userPresentation ->
+                                        _user.value += (userPresentation.list as? List<*>)?.filterIsInstance<UserItemPresentation?>() ?: emptyList()
                                         updateLocalList()
                                     }
 

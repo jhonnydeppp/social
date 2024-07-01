@@ -2,7 +2,7 @@ package com.jhonny.social.presenter.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jhonny.punkbeer.R
+import com.jhonny.base.R
 import com.jhonny.social.base.BaseEvent
 import com.jhonny.social.data.entities.Failure
 import com.jhonny.social.extensions.launch

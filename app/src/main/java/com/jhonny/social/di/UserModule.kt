@@ -14,16 +14,14 @@ import dagger.hilt.components.SingletonComponent
 class UserModule {
 
     @Provides
-    fun beerViewModelProvider(
-        getAllBeersUseCase: GetUserUseCase,
-        getBeersByNameUseCase: GetUserByNameUseCase
+    fun userViewModelProvider(
+        getAllUsersUseCase: GetUserUseCase,
+        getUsersByNameUseCase: GetUserByNameUseCase
     ) = MainViewModel (
-        getAllBeersUseCase,
-        getBeersByNameUseCase
+        getAllUsersUseCase,
+        getUsersByNameUseCase
     )
 
     @Provides
-    fun favoriteViewModelProvider(
-
-    ) = FavoriteViewModel ()
+    fun favoriteViewModelProvider() = FavoriteViewModel ()
 }

@@ -66,15 +66,15 @@ fun TabbedScreen(navController: NavHostController) {
             composable(AppScreens.FavoritesScreen.route) {
                 FavoritesScreen(navController)
             }
-            composable(route = AppScreens.DetailScreen.route + "/{beer}", arguments =
-            listOf(navArgument(name = "beer") {
+            composable(route = AppScreens.DetailScreen.route + "/{user}", arguments =
+            listOf(navArgument(name = "user") {
                 type = NavType.StringType
 
             })
             ) {
-                val beer: Parcelable? =  it.arguments?.parcelable("beer")
+                val user: Parcelable? =  it.arguments?.parcelable("user")
                 val result =
-                    navController.previousBackStackEntry?.savedStateHandle?.get<UserItemPresentation?>("beer")
+                    navController.previousBackStackEntry?.savedStateHandle?.get<UserItemPresentation?>("user")
                 DetailScreen(navController, result?: UserItemPresentation())
 
             }

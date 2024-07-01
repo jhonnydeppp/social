@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.jhonny.punkbeer'
+    namespace 'com.jhonny.base'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.jhonny.punkbeer"
+        applicationId "com.jhonny.base"
         minSdk 23
         targetSdk 33
         versionCode 1

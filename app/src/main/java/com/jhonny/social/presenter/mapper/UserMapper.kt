@@ -3,8 +3,13 @@ package com.jhonny.social.presenter.mapper
 
 import com.jhonny.social.domain.entities.DomainUser
 import com.jhonny.social.domain.mapper.Mapper
-import com.jhonny.social.presenter.entities.*
-
+import com.jhonny.social.presenter.entities.Dob
+import com.jhonny.social.presenter.entities.Location
+import com.jhonny.social.presenter.entities.Name
+import com.jhonny.social.presenter.entities.Picture
+import com.jhonny.social.presenter.entities.Street
+import com.jhonny.social.presenter.entities.UserItemPresentation
+import com.jhonny.social.presenter.entities.UserPresentation
 import javax.inject.Inject
 
 class UserMapper @Inject constructor() : Mapper<DomainUser?, UserPresentation>() {

@@ -55,7 +55,7 @@ class UserUnitTest {
     fun `test updateFavoriteList when user is not in favorite`() = runBlockingTest {
         // Given
         val user = UserItemPresentation(name = Name(first = firstName), isFavorite = false)
-        viewModel.setDrinks(listOf(user))
+        viewModel.setUsers(listOf(user))
 
         // When
         viewModel.updateFavoriteList(user)
