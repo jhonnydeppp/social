@@ -114,6 +114,9 @@ data class Timezone(
 @Parcelize
 data class ResultsItem(
 
+	@field:SerializedName("isFavorite")
+	var isFavorite: Boolean = false,
+
 	@field:SerializedName("nat")
 	val nat: String? = null,
 

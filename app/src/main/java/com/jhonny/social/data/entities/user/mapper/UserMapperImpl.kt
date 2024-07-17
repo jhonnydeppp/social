@@ -1,6 +1,7 @@
 package com.jhonny.social.data.entities.user.mapper
 
 
+import com.jhonny.social.data.entities.user.entities.ResultsItem
 import com.jhonny.social.data.entities.user.entities.UserResponse
 import com.jhonny.social.domain.entities.Dob
 import com.jhonny.social.domain.entities.DomainUser
@@ -13,10 +14,10 @@ import javax.inject.Inject
 
 class UserMapperImpl @Inject constructor() : UserMapper {
 
-    override fun responseToDomain(info: UserResponse?): DomainUser {
+    override fun responseToDomain(user: UserResponse?): DomainUser {
         return DomainUser(
             list =
-            info?.results?.map {
+            user?.results?.map {
                 DomainUserItem(
                     nat = it?.nat,
                     gender = it?.gender,
@@ -48,6 +49,46 @@ class UserMapperImpl @Inject constructor() : UserMapper {
                     email = it?.email
                 )
             } ?: emptyList()
+        )
+    }
+
+    override fun domainToResponse(user: DomainUser): UserResponse {
+        return UserResponse(
+            results =
+            user.list?.map{
+                ResultsItem(
+                    nat = it?.nat,
+                    gender = it?.gender,
+                    phone = it?.phone,
+                    dob = com.jhonny.social.data.entities.user.entities.Dob(
+                        date = it?.dob?.date,
+                        age = it?.dob?.age
+                    ),
+                    picture = com.jhonny.social.data.entities.user.entities.Picture(
+                        thumbnail = it?.picture?.thumbnail,
+                        large = it?.picture?.large,
+                        medium = it?.picture?.medium
+                    ),
+                    name = com.jhonny.social.data.entities.user.entities.Name(
+                        last = it?.name?.last,
+                        first = it?.name?.first,
+                        title = it?.name?.title
+                    ),
+                    location = com.jhonny.social.data.entities.user.entities.Location(
+                        country = it?.location?.country,
+                        city = it?.location?.city,
+                        street = com.jhonny.social.data.entities.user.entities.Street(
+                            number = it?.location?.street?.number,
+                            name = it?.location?.street?.name
+                        ),
+                        postcode = it?.location?.postcode,
+                    ),
+                    cell = it?.cell,
+                    email = it?.email
+                )
+            }
+            ,
+            info = null
         )
     }
 

@@ -1,6 +1,7 @@
 package com.jhonny.social.di
 
 import com.jhonny.social.data.entities.user.UserRepository
+import com.jhonny.social.data.entities.user.local.UserLocalDataSource
 import com.jhonny.social.data.entities.user.mapper.UserMapper
 import com.jhonny.social.data.entities.user.remote.UserRemoteDataSource
 import com.jhonny.social.data.entities.user.remote.UserRemoteDataSourceImpl
@@ -20,9 +21,11 @@ class RepositoryModule {
     @Provides
     fun userRepositoryProvider(
         userRemoteDataSource: UserRemoteDataSource,
-        userMapper: UserMapper
+        userMapper: UserMapper,
+        userLocalDataSource: UserLocalDataSource
     ) = UserRepository(
         userRemoteDataSource,
+        userLocalDataSource,
         userMapper
     )
 
@@ -38,9 +41,11 @@ class RepositoryModule {
     @Provides
     fun userDataSourceProvider(
         userRemoteDataSource: UserRemoteDataSource,
-        userMapper: UserMapper
+        userMapper: UserMapper,
+        userLocalDataSource: UserLocalDataSource
     ): UserDataSource = UserRepository(
         userRemoteDataSource,
+        userLocalDataSource,
         userMapper
     )
 

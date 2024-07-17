@@ -9,4 +9,8 @@ interface UserDataSource {
 
     suspend fun getUsersByName(name: String): Result<DomainUser?>
 
+    suspend fun getFavoritesUsers(): Result<DomainUser?>
+
+    suspend fun addFavoriteUser(domainUser: DomainUser)
+
 }

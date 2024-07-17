@@ -2,6 +2,7 @@ package com.jhonny.social.presenter.mapper
 
 
 import com.jhonny.social.domain.entities.DomainUser
+import com.jhonny.social.domain.entities.DomainUserItem
 import com.jhonny.social.domain.mapper.Mapper
 import com.jhonny.social.presenter.entities.Dob
 import com.jhonny.social.presenter.entities.Location
@@ -50,4 +51,40 @@ class UserMapper @Inject constructor() : Mapper<DomainUser?, UserPresentation>()
             } ?: emptyList()
         )
 
+
+    fun mapToDomain(info: UserPresentation?): DomainUser =
+        DomainUser(
+            list = info?.list?.map {
+                DomainUserItem(
+                    nat = it?.nat,
+                    gender = it?.gender,
+                    phone = it?.phone,
+                    dob = com.jhonny.social.domain.entities.Dob(
+                        date = it?.dob?.date,
+                        age = it?.dob?.age
+                    ),
+                    picture = com.jhonny.social.domain.entities.Picture(
+                        thumbnail = it?.picture?.thumbnail,
+                        large = it?.picture?.large,
+                        medium = it?.picture?.medium
+                    ),
+                    name = Name(
+                        last = it?.name?.last,
+                        first = it?.name?.first,
+                        title = it?.name?.title
+                    ),
+                    location = com.jhonny.social.domain.entities.Location(
+                        country = it?.location?.country,
+                        city = it?.location?.city,
+                        street = com.jhonny.social.domain.entities.Street(
+                            number = it?.location?.street?.number,
+                            name = it?.location?.street?.name
+                        ),
+                        postcode = it?.location?.postcode,
+                    ),
+                    cell = it?.cell,
+                    email = it?.email
+                )
+            } ?: emptyList()
+        )
 }

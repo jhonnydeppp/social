@@ -129,7 +129,7 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
                 user?.let {
                     FavoriteButton(viewModel.isFavorite(user)?: false) {
                         viewModel.updateFavoriteList(user)
-                        viewModel.updateLocalList()
+                        //viewModel.updateLocalList()
                     }
                 }
             }
