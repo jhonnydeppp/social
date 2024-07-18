@@ -9,4 +9,6 @@ interface UserLocalDataSource {
     fun getFavorites(): List<ResultsItem>
 
     fun addNewElementsToList(list: List<ResultsItem?>?)
+
+    fun getLocalList(): List<ResultsItem>
 }

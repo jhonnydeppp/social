@@ -13,4 +13,6 @@ interface UserDataSource {
 
     suspend fun addFavoriteUser(domainUser: DomainUser)
 
+    suspend fun deleteFavoriteUser(domainUser: DomainUser)
+
 }

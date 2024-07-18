@@ -19,6 +19,7 @@ class UserMapperImpl @Inject constructor() : UserMapper {
             list =
             user?.results?.map {
                 DomainUserItem(
+                    isFavorite = it?.isFavorite?: false,
                     nat = it?.nat,
                     gender = it?.gender,
                     phone = it?.phone,
@@ -57,6 +58,7 @@ class UserMapperImpl @Inject constructor() : UserMapper {
             results =
             user.list?.map{
                 ResultsItem(
+                    isFavorite = it?.isFavorite?: false,
                     nat = it?.nat,
                     gender = it?.gender,
                     phone = it?.phone,

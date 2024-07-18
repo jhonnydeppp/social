@@ -8,18 +8,20 @@ import javax.inject.Inject
 class UserLocalDataSourceImpl @Inject constructor(private val userLocalPreferencesDataSource: UserLocalPreferencesDataSource): UserLocalDataSource {
 
     override fun setLocalList(list: List<ResultsItem?>) {
-        userLocalPreferencesDataSource.setFavorites(list)
+        userLocalPreferencesDataSource.setLocalList(list)
     }
 
     override fun getFavorites(): List<ResultsItem> =
-        userLocalPreferencesDataSource.getFavorites().filter { it.isFavorite }
+         userLocalPreferencesDataSource.getLocalList().filter { it.isFavorite }
+
+    override fun getLocalList(): List<ResultsItem> =
+         userLocalPreferencesDataSource.getLocalList()
 
     override fun addNewElementsToList(list: List<ResultsItem?>?) {
         list?.let {
             val newList: List<ResultsItem?> = (getFavorites() + list).distinctBy { it?.name?.first }
             setLocalList(newList)
         }
-
     }
 
 }

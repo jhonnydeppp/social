@@ -5,6 +5,7 @@ import com.jhonny.social.domain.entities.DomainUser
 
 
 interface UserMapper {
+
     fun responseToDomain(user: UserResponse?): DomainUser?
 
     fun domainToResponse(user: DomainUser): UserResponse?

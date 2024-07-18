@@ -1,9 +1,9 @@
 package com.jhonny.social.presenter.favorites
 
 import com.jhonny.social.domain.usecases.AddUserFavoriteUseCase
+import com.jhonny.social.domain.usecases.DeleteUserFavoriteUseCase
 import com.jhonny.social.domain.usecases.GetUserFavoritesUseCase
 import com.jhonny.social.extensions.launch
-import com.jhonny.social.presenter.MainActivity
 import com.jhonny.social.presenter.base.BaseViewModel
 import com.jhonny.social.presenter.entities.UserItemPresentation
 import com.jhonny.social.presenter.entities.UserPresentation
@@ -15,22 +15,26 @@ import com.jhonny.social.presenter.mapper.UserMapper
 import com.jhonny.social.presenter.mapper.toPresentationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(private val getUserFavoritesUseCase: GetUserFavoritesUseCase,
-                                            private val addUserFavoriteUseCase: AddUserFavoriteUseCase) : BaseViewModel() {
+                                            private val addUserFavoriteUseCase: AddUserFavoriteUseCase,
+                                            private val deleteUserFavoriteUseCase: DeleteUserFavoriteUseCase
+) : BaseViewModel() {
     private val _user = MutableStateFlow<List<UserItemPresentation?>>(emptyList())
     val user: StateFlow<List<UserItemPresentation?>> = _user
 
+    private var isUserListUpdated = false
     private val _errorHandling = MutableStateFlow(Exception())
     val errorHandling: StateFlow<Exception> = _errorHandling
-    var name: String = ""
 
-    fun getUsers() {
+    fun getFavoriteUsers() {
         launch {
             withContext(IO) {
                 getUserFavoritesUseCase.execute().toPresentationResult().let { result ->
@@ -39,6 +43,7 @@ class FavoriteViewModel @Inject constructor(private val getUserFavoritesUseCase:
                             result.dataOrNull()?.let { domainUser ->
                                 val userPresentation = UserMapper().map(domainUser)
                                 _user.value = userPresentation.list ?: emptyList()
+                                isUserListUpdated = true
                             }
 
                         result.isError -> {
@@ -52,31 +57,37 @@ class FavoriteViewModel @Inject constructor(private val getUserFavoritesUseCase:
         }
     }
 
-    fun isFavorite(user: UserItemPresentation) =
-        _user.value.find { it?.name?.first == user.name?.first }?.isFavorite
+    fun isFavorite(user: UserItemPresentation): Boolean {
+        runBlocking  {
+                run repeatBlock@ {
+                    repeat(6) {
+                        if (!isUserListUpdated) {
+                            delay(500)
+                        } else {
+                            return@repeatBlock
+                        }
+                    }
+                }
+            }
 
-    /* fun updateFavoriteList(user: UserItemPresentation) {
-         user.isFavorite = !user.isFavorite
-         if(user.isFavorite) {
-             if (MainActivity.FavoritesSingletonList.instance.find { user.name?.first == it.name?.first } == null)
-                 MainActivity.FavoritesSingletonList.instance.add(user)
-         }  else
-             MainActivity.FavoritesSingletonList.instance.remove(MainActivity.FavoritesSingletonList.instance.find { user.name?.first == it.name?.first })
-         _user.value.find { it?.name?.first == user.name?.first }?.isFavorite = user.isFavorite
-     }*/
+        return _user.value.find { it?.name?.first == user.name?.first }?.isFavorite ?: false
+    }
 
     fun updateFavoriteList(user: UserItemPresentation) {
         user.isFavorite = !user.isFavorite
         launch {
             withContext(IO) {
-            if(user.isFavorite)
-                addUserFavoriteUseCase.execute(UserMapper().mapToDomain(UserPresentation(list = listOf(user))))
+                if (user.isFavorite) {
+                    addUserFavoriteUseCase.execute(UserMapper().mapToDomain(UserPresentation(list = listOf(user))))
+                } else {
+                    deleteUserFavoriteUseCase.execute(UserMapper().mapToDomain(UserPresentation(list = listOf(user))))
+                    getFavoriteUsers()
+                }
             }
         }
     }
 
-    fun updateLocalList() {
-    }
+    fun updateLocalList() {}
 
 }
 

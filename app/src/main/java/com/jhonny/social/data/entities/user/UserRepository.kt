@@ -7,7 +7,6 @@ import com.jhonny.social.data.entities.user.mapper.toDomainResult
 import com.jhonny.social.data.entities.user.remote.UserRemoteDataSource
 import com.jhonny.social.data.getData
 import com.jhonny.social.data.isSuccess
-
 import com.jhonny.social.data.map
 import com.jhonny.social.domain.entities.DomainUser
 import com.jhonny.social.domain.entities.Result
@@ -39,11 +38,21 @@ class UserRepository @Inject constructor(private val userRemoteDataSource: UserR
 
     override suspend fun addFavoriteUser(domainUser: DomainUser) {
         val userResponse = userMapper.domainToResponse(domainUser)
-        val userFavorite = userLocalDataSource.getFavorites().find { localUser ->
+        val userFavorite = userLocalDataSource.getLocalList().find { localUser ->
             localUser.name?.first == userResponse?.results?.first()?.name?.first
         }
-        val userList = userLocalDataSource.getFavorites()
-        userList.find { it == userFavorite }?.isFavorite = true
+        val userList = userLocalDataSource.getLocalList()
+        userList.find { it.name?.first == userFavorite?.name?.first }?.isFavorite = true
+        userLocalDataSource.setLocalList(userList)
+    }
+
+    override suspend fun deleteFavoriteUser(domainUser: DomainUser) {
+        val userResponse = userMapper.domainToResponse(domainUser)
+        val userFavorite = userLocalDataSource.getLocalList().find { localUser ->
+            localUser.name?.first == userResponse?.results?.first()?.name?.first
+        }
+        val userList = userLocalDataSource.getLocalList()
+        userList.find { it.name?.first == userFavorite?.name?.first }?.isFavorite = false
         userLocalDataSource.setLocalList(userList)
     }
 

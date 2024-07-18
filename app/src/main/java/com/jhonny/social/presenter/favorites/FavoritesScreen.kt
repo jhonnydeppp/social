@@ -38,7 +38,7 @@ private lateinit var viewModel: FavoriteViewModel
 @Composable
 fun FavoritesScreen(navController: NavController) {
     viewModel = hiltViewModel()
-    viewModel.getUsers()
+    viewModel.getFavoriteUsers()
     val userList by viewModel.user.collectAsState()
     val errorHandling by viewModel.errorHandling.collectAsState()
     MainTheme {
