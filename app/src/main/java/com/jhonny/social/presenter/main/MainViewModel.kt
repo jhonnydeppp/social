@@ -63,7 +63,6 @@ class MainViewModel @Inject constructor(
                                 result.isError -> {
                                     _errorHandling.value = result.getError()
                                 }
-
                                 else -> {}
                             }
                         }
