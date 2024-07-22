@@ -32,8 +32,6 @@ class MainViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val _user = MutableStateFlow<List<UserItemPresentation?>>(emptyList())
     val user: StateFlow<List<UserItemPresentation?>> = _user
-    private val _favorites = MutableStateFlow<List<UserItemPresentation?>>(emptyList())
-    val favorites: StateFlow<List<UserItemPresentation?>> = _favorites
 
     private val _errorHandling = MutableStateFlow(Exception())
     val errorHandling: StateFlow<Exception> = _errorHandling
@@ -45,6 +43,7 @@ class MainViewModel @Inject constructor(
     fun setUsers(user: List<UserItemPresentation>) {
         _user.value = user
     }
+    fun getCurrentPage() = page
 
     fun getUsers() {
         if (!isUserCalled)
