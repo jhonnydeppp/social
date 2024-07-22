@@ -101,7 +101,7 @@ fun SearchBar(viewModel: MainViewModel?) {
             leadingIcon = {
                 IconButton(onClick = {
                     if (value.isNotEmpty()) {
-                        viewModel?.geBeersByName(value)
+                        viewModel?.getUserByName(value)
                     }
                 }) {
                     Icon(Icons.Filled.Search, null, tint = Color.Gray)
@@ -111,7 +111,7 @@ fun SearchBar(viewModel: MainViewModel?) {
                 .weight(1f)
                 .padding(start = 30.dp, end = 10.dp, top = 20.dp, bottom = 10.dp)
                 .background(Color(0xFFE7F1F1), RoundedCornerShape(16.dp)),
-            placeholder = { Text(text = "Search your drink") },
+            placeholder = { Text(text = "Search your user") },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -144,7 +144,7 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
             .fillMaxWidth()
             .clickable {
                 navController?.currentBackStackEntry?.savedStateHandle?.set(
-                    key = "beer",
+                    key = "user",
                     value = user
                 )
                 navController?.navigate("${AppScreens.DetailScreen.route}/${user?.name?.first}")
@@ -181,9 +181,9 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
                 ) {
                     user?.let {
                         FavoriteButton(viewModel.isFavorite(user)?: false) {
-                            //user.isFavorite = !user.isFavorite
+                            user.isFavorite = !user.isFavorite
                             viewModel.updateFavoriteList(user)
-                            viewModel.updateLocalList()
+                            //viewModel.updateLocalList()
                         }
                     }
                 }

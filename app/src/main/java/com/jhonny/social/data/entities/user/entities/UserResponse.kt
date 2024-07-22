@@ -1,8 +1,8 @@
 package com.jhonny.social.data.entities.user.entities
 
-import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
@@ -113,6 +113,9 @@ data class Timezone(
 
 @Parcelize
 data class ResultsItem(
+
+	@field:SerializedName("isFavorite")
+	var isFavorite: Boolean = false,
 
 	@field:SerializedName("nat")
 	val nat: String? = null,

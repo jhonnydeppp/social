@@ -7,12 +7,12 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(private val service: UserService) :
     UserRemoteDataSource, BaseRemoteDataSource() {
 
-    override suspend fun getCocktails(page: Int) = getResult {
-        service.getCocktails(page = page)
+    override suspend fun getUsers(page: Int) = getResult {
+        service.getUsers(page = page)
     }
 
-    override suspend fun getCocktailsByName(name: String) = getResult {
-        service.getCocktailsByName(name)
+    override suspend fun getUsersByName(name: String) = getResult {
+        service.getUsersByName(name)
     }
 
 }

@@ -1,24 +1,24 @@
-package com.jhonny.social.data.entities.user.mapper
+package com.jhonny.social.presenter.mapper
 
 
-import com.jhonny.social.data.entities.user.entities.ResultsItem
-import com.jhonny.social.data.entities.user.entities.UserResponse
-import com.jhonny.social.domain.entities.Dob
 import com.jhonny.social.domain.entities.DomainUser
 import com.jhonny.social.domain.entities.DomainUserItem
-import com.jhonny.social.domain.entities.Location
-import com.jhonny.social.domain.entities.Picture
-import com.jhonny.social.domain.entities.Street
+import com.jhonny.social.domain.mapper.Mapper
+import com.jhonny.social.presenter.entities.Dob
+import com.jhonny.social.presenter.entities.Location
 import com.jhonny.social.presenter.entities.Name
+import com.jhonny.social.presenter.entities.Picture
+import com.jhonny.social.presenter.entities.Street
+import com.jhonny.social.presenter.entities.UserItemPresentation
+import com.jhonny.social.presenter.entities.UserPresentation
 import javax.inject.Inject
 
-class UserMapperImpl @Inject constructor() : UserMapper {
+class UserMapper @Inject constructor() : Mapper<DomainUser?, UserPresentation>() {
 
-    override fun responseToDomain(user: UserResponse?): DomainUser {
-        return DomainUser(
-            list =
-            user?.results?.map {
-                DomainUserItem(
+    override fun map(info: DomainUser?): UserPresentation =
+        UserPresentation(
+            list = info?.list?.map {
+                UserItemPresentation(
                     isFavorite = it?.isFavorite?: false,
                     nat = it?.nat,
                     gender = it?.gender,
@@ -51,35 +51,34 @@ class UserMapperImpl @Inject constructor() : UserMapper {
                 )
             } ?: emptyList()
         )
-    }
 
-    override fun domainToResponse(user: DomainUser): UserResponse {
-        return UserResponse(
-            results =
-            user.list?.map{
-                ResultsItem(
+
+    fun mapToDomain(info: UserPresentation?): DomainUser =
+        DomainUser(
+            list = info?.list?.map {
+                DomainUserItem(
                     isFavorite = it?.isFavorite?: false,
                     nat = it?.nat,
                     gender = it?.gender,
                     phone = it?.phone,
-                    dob = com.jhonny.social.data.entities.user.entities.Dob(
+                    dob = com.jhonny.social.domain.entities.Dob(
                         date = it?.dob?.date,
                         age = it?.dob?.age
                     ),
-                    picture = com.jhonny.social.data.entities.user.entities.Picture(
+                    picture = com.jhonny.social.domain.entities.Picture(
                         thumbnail = it?.picture?.thumbnail,
                         large = it?.picture?.large,
                         medium = it?.picture?.medium
                     ),
-                    name = com.jhonny.social.data.entities.user.entities.Name(
+                    name = Name(
                         last = it?.name?.last,
                         first = it?.name?.first,
                         title = it?.name?.title
                     ),
-                    location = com.jhonny.social.data.entities.user.entities.Location(
+                    location = com.jhonny.social.domain.entities.Location(
                         country = it?.location?.country,
                         city = it?.location?.city,
-                        street = com.jhonny.social.data.entities.user.entities.Street(
+                        street = com.jhonny.social.domain.entities.Street(
                             number = it?.location?.street?.number,
                             name = it?.location?.street?.name
                         ),
@@ -88,10 +87,6 @@ class UserMapperImpl @Inject constructor() : UserMapper {
                     cell = it?.cell,
                     email = it?.email
                 )
-            }
-            ,
-            info = null
+            } ?: emptyList()
         )
-    }
-
 }
