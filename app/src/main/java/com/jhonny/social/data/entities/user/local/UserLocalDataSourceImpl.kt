@@ -19,7 +19,7 @@ class UserLocalDataSourceImpl @Inject constructor(private val userLocalPreferenc
 
     override fun addNewElementsToList(list: List<ResultsItem?>?) {
         list?.let {
-            val newList: List<ResultsItem?> = (getFavorites() + list).distinctBy { it?.name?.first }
+            val newList: List<ResultsItem?> = (getLocalList() + list).distinctBy { it?.name?.first }
             setLocalList(newList)
         }
     }

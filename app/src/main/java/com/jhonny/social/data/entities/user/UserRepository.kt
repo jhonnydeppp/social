@@ -21,7 +21,7 @@ class UserRepository @Inject constructor(private val userRemoteDataSource: UserR
     override suspend fun getUsers(page: Int): Result<DomainUser?> {
         val userResponse = userRemoteDataSource.getUsers(page)
         if(userResponse.isSuccess)
-            userLocalDataSource. addNewElementsToList(userResponse.getData()?.results)
+            userLocalDataSource.addNewElementsToList(userResponse.getData()?.results)
         return userResponse
             .map(userMapper::responseToDomain).toDomainResult()
     }
