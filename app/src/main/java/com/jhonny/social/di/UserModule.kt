@@ -1,6 +1,12 @@
 package com.jhonny.social.di
 
+import com.jhonny.social.data.entities.user.local.UserLocalDataSource
+import com.jhonny.social.data.entities.user.local.UserLocalDataSourceImpl
+import com.jhonny.social.data.entities.user.local.preferences.UserLocalPreferencesDataSource
+import com.jhonny.social.domain.usecases.AddUserFavoriteUseCase
+import com.jhonny.social.domain.usecases.DeleteUserFavoriteUseCase
 import com.jhonny.social.domain.usecases.GetUserByNameUseCase
+import com.jhonny.social.domain.usecases.GetUserFavoritesUseCase
 import com.jhonny.social.domain.usecases.GetUserUseCase
 import com.jhonny.social.presenter.favorites.FavoriteViewModel
 import com.jhonny.social.presenter.main.MainViewModel
@@ -14,16 +20,27 @@ import dagger.hilt.components.SingletonComponent
 class UserModule {
 
     @Provides
-    fun beerViewModelProvider(
-        getAllBeersUseCase: GetUserUseCase,
-        getBeersByNameUseCase: GetUserByNameUseCase
+    fun userViewModelProvider(
+        getAllUsersUseCase: GetUserUseCase,
+        getUsersByNameUseCase: GetUserByNameUseCase,
+        addUserFavoriteUseCase: AddUserFavoriteUseCase,
+        deleteUserFavoriteUseCase: DeleteUserFavoriteUseCase
     ) = MainViewModel (
-        getAllBeersUseCase,
-        getBeersByNameUseCase
+        getAllUsersUseCase,
+        getUsersByNameUseCase,
+        addUserFavoriteUseCase,
+        deleteUserFavoriteUseCase
     )
 
     @Provides
-    fun favoriteViewModelProvider(
+    fun favoriteViewModelProvider(getUserFavoritesUseCase: GetUserFavoritesUseCase,
+                                  addUserFavoriteUseCase: AddUserFavoriteUseCase,
+                                  deleteUserFavoriteUseCase: DeleteUserFavoriteUseCase
+    ) =
+        FavoriteViewModel(getUserFavoritesUseCase, addUserFavoriteUseCase, deleteUserFavoriteUseCase)
 
-    ) = FavoriteViewModel ()
+    @Provides
+    fun userLocalDataSourceProvider(userLocalPreferencesDataSource: UserLocalPreferencesDataSource): UserLocalDataSource =
+        UserLocalDataSourceImpl(userLocalPreferencesDataSource)
+
 }

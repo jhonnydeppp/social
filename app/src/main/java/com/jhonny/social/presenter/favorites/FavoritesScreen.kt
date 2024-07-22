@@ -38,8 +38,8 @@ private lateinit var viewModel: FavoriteViewModel
 @Composable
 fun FavoritesScreen(navController: NavController) {
     viewModel = hiltViewModel()
-    viewModel.getUsers()
-    val userList by viewModel.beer.collectAsState()
+    viewModel.getFavoriteUsers()
+    val userList by viewModel.user.collectAsState()
     val errorHandling by viewModel.errorHandling.collectAsState()
     MainTheme {
         // A surface container using the 'background' color from the theme
@@ -91,7 +91,7 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
             .fillMaxWidth()
             .clickable {
                 navController?.currentBackStackEntry?.savedStateHandle?.set(
-                    key = "beer",
+                    key = "user",
                     value = user
                 )
                 navController?.navigate("${AppScreens.DetailScreen.route}/${user?.name?.first}")
@@ -129,7 +129,7 @@ fun UserItem(user: UserItemPresentation?, navController: NavController?) {
                 user?.let {
                     FavoriteButton(viewModel.isFavorite(user)?: false) {
                         viewModel.updateFavoriteList(user)
-                        viewModel.updateLocalList()
+                        //viewModel.updateLocalList()
                     }
                 }
             }

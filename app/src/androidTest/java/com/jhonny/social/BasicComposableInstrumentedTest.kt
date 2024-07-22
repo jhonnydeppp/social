@@ -34,7 +34,7 @@ class BasicComposableInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.jhonny.PunkBeer", appContext.packageName)
+        assertEquals("com.jhonny.base", appContext.packageName)
     }
 
     @get:Rule
