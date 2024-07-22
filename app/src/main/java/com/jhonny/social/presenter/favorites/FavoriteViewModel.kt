@@ -1,93 +1,44 @@
 package com.jhonny.social.presenter.favorites
 
-import com.jhonny.social.domain.usecases.AddUserFavoriteUseCase
-import com.jhonny.social.domain.usecases.DeleteUserFavoriteUseCase
-import com.jhonny.social.domain.usecases.GetUserFavoritesUseCase
-import com.jhonny.social.extensions.launch
+import com.jhonny.social.presenter.MainActivity
 import com.jhonny.social.presenter.base.BaseViewModel
 import com.jhonny.social.presenter.entities.UserItemPresentation
-import com.jhonny.social.presenter.entities.UserPresentation
-import com.jhonny.social.presenter.entities.dataOrNull
-import com.jhonny.social.presenter.entities.getError
-import com.jhonny.social.presenter.entities.isError
-import com.jhonny.social.presenter.entities.isSuccess
-import com.jhonny.social.presenter.mapper.UserMapper
-import com.jhonny.social.presenter.mapper.toPresentationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteViewModel @Inject constructor(private val getUserFavoritesUseCase: GetUserFavoritesUseCase,
-                                            private val addUserFavoriteUseCase: AddUserFavoriteUseCase,
-                                            private val deleteUserFavoriteUseCase: DeleteUserFavoriteUseCase
-) : BaseViewModel() {
-    private val _user = MutableStateFlow<List<UserItemPresentation?>>(emptyList())
-    val user: StateFlow<List<UserItemPresentation?>> = _user
+class FavoriteViewModel @Inject constructor() : BaseViewModel() {
+    private val _beer = MutableStateFlow<List<UserItemPresentation?>>(emptyList())
+    val beer: StateFlow<List<UserItemPresentation?>> = _beer
 
-    private var isUserListUpdated = false
     private val _errorHandling = MutableStateFlow(Exception())
     val errorHandling: StateFlow<Exception> = _errorHandling
+    var name: String = ""
 
-    fun getFavoriteUsers() {
-        launch {
-            withContext(IO) {
-                getUserFavoritesUseCase.execute().toPresentationResult().let { result ->
-                    when {
-                        result.isSuccess ->
-                            result.dataOrNull()?.let { domainUser ->
-                                val userPresentation = UserMapper().map(domainUser)
-                                _user.value = userPresentation.list ?: emptyList()
-                                isUserListUpdated = true
-                            }
+    fun getUsers() {
+        _beer.value = MainActivity.FavoritesSingletonList.instance
+    }
 
-                        result.isError -> {
-                            _errorHandling.value = result.getError()
-                        }
+    fun isFavorite(user: UserItemPresentation) =
+        _beer.value.find { it?.name?.first == user.name?.first }?.isFavorite
 
-                        else -> {}
-                    }
-                }
-            }
+     fun updateFavoriteList(user: UserItemPresentation) {
+         user.isFavorite = !user.isFavorite
+         if(user.isFavorite) {
+             if (MainActivity.FavoritesSingletonList.instance.find { user.name?.first == it.name?.first } == null)
+                 MainActivity.FavoritesSingletonList.instance.add(user)
+         }  else
+             MainActivity.FavoritesSingletonList.instance.remove(MainActivity.FavoritesSingletonList.instance.find { user.name?.first == it.name?.first })
+         _beer.value.find { it?.name?.first == user.name?.first }?.isFavorite = user.isFavorite
+     }
+
+    fun updateLocalList() {
+        MainActivity.FavoritesSingletonList.instance.forEach{ favorite ->
+            _beer.value.find { favorite.name?.first == it?.name?.first }?.isFavorite = true
         }
     }
-
-    fun isFavorite(user: UserItemPresentation): Boolean {
-        runBlocking  {
-                run repeatBlock@ {
-                    repeat(6) {
-                        if (!isUserListUpdated) {
-                            delay(500)
-                        } else {
-                            return@repeatBlock
-                        }
-                    }
-                }
-            }
-
-        return _user.value.find { it?.name?.first == user.name?.first }?.isFavorite ?: false
-    }
-
-    fun updateFavoriteList(user: UserItemPresentation) {
-        user.isFavorite = !user.isFavorite
-        launch {
-            withContext(IO) {
-                if (user.isFavorite) {
-                    addUserFavoriteUseCase.execute(UserMapper().mapToDomain(UserPresentation(list = listOf(user))))
-                } else {
-                    deleteUserFavoriteUseCase.execute(UserMapper().mapToDomain(UserPresentation(list = listOf(user))))
-                    getFavoriteUsers()
-                }
-            }
-        }
-    }
-
-    fun updateLocalList() {}
 
 }
 

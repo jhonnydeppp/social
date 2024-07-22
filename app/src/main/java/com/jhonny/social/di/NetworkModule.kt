@@ -46,7 +46,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUserService(
+    fun provideBeerService(
         @DefaultClient okHttpClient: OkHttpClient
     ) = provideService<UserService>(okHttpClient)
 

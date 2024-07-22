@@ -5,7 +5,10 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testCounterButton()">
+      <entry key="navigateCounterButton()">
+        <State />
+      </entry>
+      <entry key="testIconIsCorrect()">
         <State />
       </entry>
     </value>

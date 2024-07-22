@@ -1,23 +1,18 @@
-package com.jhonny.social.data.entities.user.mapper
+package com.jhonny.social.domain.usecases.mapper
 
 
-import com.jhonny.social.data.entities.user.entities.UserResponse
-import com.jhonny.social.domain.entities.Dob
 import com.jhonny.social.domain.entities.DomainUser
-import com.jhonny.social.domain.entities.DomainUserItem
-import com.jhonny.social.domain.entities.Location
-import com.jhonny.social.domain.entities.Picture
-import com.jhonny.social.domain.entities.Street
-import com.jhonny.social.presenter.entities.Name
+import com.jhonny.social.domain.mapper.Mapper
+import com.jhonny.social.presenter.entities.*
+
 import javax.inject.Inject
 
-class UserMapperImpl @Inject constructor() : UserMapper {
+class UserMapper @Inject constructor() : Mapper<DomainUser?, UserPresentation>() {
 
-    override fun responseToDomain(info: UserResponse?): DomainUser {
-        return DomainUser(
-            list =
-            info?.results?.map {
-                DomainUserItem(
+    override fun map(info: DomainUser?): UserPresentation =
+        UserPresentation(
+            list = info?.list?.map {
+                UserItemPresentation(
                     nat = it?.nat,
                     gender = it?.gender,
                     phone = it?.phone,
@@ -49,6 +44,5 @@ class UserMapperImpl @Inject constructor() : UserMapper {
                 )
             } ?: emptyList()
         )
-    }
 
 }

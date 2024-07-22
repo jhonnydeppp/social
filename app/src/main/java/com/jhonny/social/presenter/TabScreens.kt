@@ -8,11 +8,12 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jhonny.social.presenter.detail.DetailScreen
@@ -24,15 +25,13 @@ import com.jhonny.social.ui.theme.Blue80
 import com.jhonny.social.util.parcelable
 
 @Composable
-fun TabbedScreen() {
+fun TabbedScreen(navController: NavHostController) {
     val navController = rememberNavController()
     val screens = listOf(
         AppScreens.MainScreen,
         AppScreens.FavoritesScreen
     )
-
-    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.destination?.route
+    val currentRoute by rememberUpdatedState(navController.currentBackStackEntry?.destination?.route)
 
     Scaffold(
         topBar = {
@@ -67,15 +66,15 @@ fun TabbedScreen() {
             composable(AppScreens.FavoritesScreen.route) {
                 FavoritesScreen(navController)
             }
-            composable(route = AppScreens.DetailScreen.route + "/{user}", arguments =
-            listOf(navArgument(name = "user") {
+            composable(route = AppScreens.DetailScreen.route + "/{beer}", arguments =
+            listOf(navArgument(name = "beer") {
                 type = NavType.StringType
 
             })
             ) {
-                val user: Parcelable? =  it.arguments?.parcelable("user")
+                val beer: Parcelable? =  it.arguments?.parcelable("beer")
                 val result =
-                    navController.previousBackStackEntry?.savedStateHandle?.get<UserItemPresentation?>("user")
+                    navController.previousBackStackEntry?.savedStateHandle?.get<UserItemPresentation?>("beer")
                 DetailScreen(navController, result?: UserItemPresentation())
 
             }

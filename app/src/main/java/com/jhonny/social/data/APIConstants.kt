@@ -8,7 +8,7 @@ object APIConstants {
     const val PAGE = "page"
     const val PER_PAGE = "results"
     const val USER_NAME = "seed"
-    const val BASE_PREF = "BASE_PREF"
+    const val Cocktail_PREF = "Cocktail_PREF"
 
     const val PAGE_AMOUNT = 10
 

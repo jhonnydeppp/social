@@ -1,12 +1,11 @@
 package com.jhonny.social.di
 
+import com.jhonny.social.data.entities.user.UserDataSource
 import com.jhonny.social.data.entities.user.UserRepository
-import com.jhonny.social.data.entities.user.local.UserLocalDataSource
 import com.jhonny.social.data.entities.user.mapper.UserMapper
 import com.jhonny.social.data.entities.user.remote.UserRemoteDataSource
 import com.jhonny.social.data.entities.user.remote.UserRemoteDataSourceImpl
 import com.jhonny.social.data.entities.user.service.UserService
-import com.jhonny.social.domain.repository.UserDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,19 +18,17 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun userRepositoryProvider(
+    fun cocktailRepositoryProvider(
         userRemoteDataSource: UserRemoteDataSource,
-        userMapper: UserMapper,
-        userLocalDataSource: UserLocalDataSource
+        userMapper: UserMapper
     ) = UserRepository(
         userRemoteDataSource,
-        userLocalDataSource,
         userMapper
     )
 
     @Singleton
     @Provides
-    fun userDataSourceImplProvider(
+    fun cocktailDataSourceImplProvider(
         userService: UserService
     ) = UserRemoteDataSourceImpl(
         userService
@@ -39,19 +36,17 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun userDataSourceProvider(
+    fun cocktailDataSourceProvider(
         userRemoteDataSource: UserRemoteDataSource,
-        userMapper: UserMapper,
-        userLocalDataSource: UserLocalDataSource
+        userMapper: UserMapper
     ): UserDataSource = UserRepository(
         userRemoteDataSource,
-        userLocalDataSource,
         userMapper
     )
 
     @Singleton
     @Provides
-    fun userRemoteDataSourceProvider(
+    fun cocktailRemoteDataSourceProvider(
         userService: UserService
     ): UserRemoteDataSource = UserRemoteDataSourceImpl(
         userService

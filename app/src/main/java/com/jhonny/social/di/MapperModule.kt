@@ -14,5 +14,5 @@ class MapperModule {
 
     @Singleton
     @Provides
-    fun userMapperProvider(): UserMapper = UserMapperImpl()
+    fun beerMapperProvider(): UserMapper = UserMapperImpl()
 }

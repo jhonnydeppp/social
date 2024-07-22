@@ -12,13 +12,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Base"
+        android:theme="@style/Theme.PunkBeer"
         tools:targetApi="31">
         <activity
             android:name="com.jhonny.social.presenter.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Base">
+            android:theme="@style/Theme.PunkBeer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

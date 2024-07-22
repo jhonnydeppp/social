@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.jhonny.base.R
+import com.jhonny.punkbeer.R
 
 @Composable
 fun FavoriteButton(isFavorite: Boolean, onClick: () -> Unit) {

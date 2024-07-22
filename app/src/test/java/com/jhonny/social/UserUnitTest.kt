@@ -1,7 +1,5 @@
 package com.jhonny.social
 
-import com.jhonny.social.domain.usecases.AddUserFavoriteUseCase
-import com.jhonny.social.domain.usecases.DeleteUserFavoriteUseCase
 import com.jhonny.social.domain.usecases.GetUserByNameUseCase
 import com.jhonny.social.domain.usecases.GetUserUseCase
 import com.jhonny.social.presenter.MainActivity
@@ -28,12 +26,10 @@ class UserUnitTest {
     private lateinit var viewModel: MainViewModel
     private val getUserUseCase: GetUserUseCase = mockk()
     private val getUserByNameUseCase: GetUserByNameUseCase = mockk()
-    private val addUserFavoriteUseCase: AddUserFavoriteUseCase = mockk()
-    private val deleteUserFavoriteUseCase: DeleteUserFavoriteUseCase = mockk()
 
     @Before
     fun setUp() {
-        viewModel = MainViewModel(getUserUseCase, getUserByNameUseCase, addUserFavoriteUseCase, deleteUserFavoriteUseCase)
+        viewModel = MainViewModel(getUserUseCase, getUserByNameUseCase)
     }
 
     @After
@@ -41,7 +37,7 @@ class UserUnitTest {
         clearAllMocks()
     }
 
-   /* @Test
+    @Test
     fun `test updateFavoriteList when user is favorite`() = runBlockingTest {
         // Given
         val user = UserItemPresentation(name = Name(first = firstName), isFavorite = true)
@@ -53,13 +49,13 @@ class UserUnitTest {
         // Then
         assert(!user.isFavorite)
         assert(MainActivity.FavoritesSingletonList.instance.firstOrNull { it.name?.first == firstName } == null)
-    }*/
+    }
 
-  /*  @Test
+    @Test
     fun `test updateFavoriteList when user is not in favorite`() = runBlockingTest {
         // Given
         val user = UserItemPresentation(name = Name(first = firstName), isFavorite = false)
-        viewModel.setUsers(listOf(user))
+        viewModel.setDrinks(listOf(user))
 
         // When
         viewModel.updateFavoriteList(user)
@@ -67,6 +63,6 @@ class UserUnitTest {
         // Then
         assert(user.isFavorite)
         assert(MainActivity.FavoritesSingletonList.instance.firstOrNull { it.name?.first == firstName } == user)
-    }*/
+    }
 
 }

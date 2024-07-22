@@ -1,7 +1,7 @@
 package com.jhonny.social.domain.base
 
 
-import com.jhonny.social.domain.entities.Result
+import com.jhonny.social.data.Result
 import com.jhonny.social.domain.mapper.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

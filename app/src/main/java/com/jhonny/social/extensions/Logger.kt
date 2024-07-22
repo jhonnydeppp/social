@@ -2,8 +2,8 @@ package com.jhonny.social.extensions
 
 import android.util.Log
 
-const val Users = "Users"
+const val Beers = "Beers"
 
-fun log(message: String, tag: String = Users) {
+fun log(message: String, tag: String = Beers) {
     Log.e(tag, "log: $message")
 }
