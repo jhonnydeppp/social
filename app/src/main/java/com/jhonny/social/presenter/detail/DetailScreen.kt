@@ -28,19 +28,19 @@ import com.jhonny.social.util.setStyleBold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, beerDetail: UserItemPresentation) {
+fun DetailScreen(navController: NavController, userDetail: UserItemPresentation) {
     Scaffold {
-        Body(beerDetail, navController)
+        Body(userDetail, navController)
     }
 }
 
 @Composable
-fun Body(beer: UserItemPresentation, navController: NavController) {
-    BeerDetail(beer, navController)
+fun Body(user: UserItemPresentation, navController: NavController) {
+    UserDetail(user, navController)
 }
 
 @Composable
-fun BeerDetail(user: UserItemPresentation, navController: NavController) {
+fun UserDetail(user: UserItemPresentation, navController: NavController) {
         Column(modifier = Modifier
             .heightIn(min = 128.dp)
             .padding(top = 16.dp, start = 16.dp, end = 16.dp)

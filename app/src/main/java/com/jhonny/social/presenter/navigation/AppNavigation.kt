@@ -11,7 +11,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.TabbedScreen.route) {
         composable(route = AppScreens.TabbedScreen.route) {
-            TabbedScreen(navController)
+            TabbedScreen()
         }
     }
 }

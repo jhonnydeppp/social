@@ -1,7 +1,7 @@
 package com.jhonny.social.domain.mapper
 
-import com.jhonny.social.data.Result
-import com.jhonny.social.data.isSuccess
+import com.jhonny.social.domain.entities.Result
+import com.jhonny.social.domain.entities.isSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

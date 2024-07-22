@@ -71,6 +71,9 @@ data class Picture(
 @Parcelize
 data class DomainUserItem(
 
+    @field:SerializedName("isFavorite")
+    var isFavorite: Boolean = false,
+
     @field:SerializedName("nat")
     val nat: String? = null,
 
