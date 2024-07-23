@@ -49,59 +49,28 @@ class UserUnitTest {
     }
 
     @Test
-    fun `test updateFavoriteList when user is favorite`() = runTest {
+    fun `test user is favorite`()  {
         // Given
         val user = UserItemPresentation(name = Name(first = firstName), isFavorite = true)
-
-        val job = launch {
+        viewModel.setUsers(listOf(user))
             // When
-            viewModel.updateFavoriteList(user)
-            viewModel.getUsers()
-
+        viewModel.isFavorite(user)
             // Then
-            assert(!user.isFavorite)
-            assert(viewModel.user.value.firstOrNull { it?.name?.first == firstName } == null)
-        }
-        // immediately cancel job
-        job.cancel()
-
+        assert(viewModel.isFavorite(user) == true)
     }
 
-   /* @Test
-    fun `test updatePage`() = runBlockingTest {
-        // Given
-       val page = viewModel.getCurrentPage()
-
-       // val job = launch {
-            // When
-            viewModel.getUsers()
-            assert(page == (viewModel.getCurrentPage()+1))
-
-       // }
-        // immediately cancel job
-     //   job.cancel()
-
-    }*/
-/*
     @Test
-    fun `test updateFavoriteList when user is not in favorite`() = runBlockingTest {
+    fun `test user is not favorite`()  {
         // Given
         val user = UserItemPresentation(name = Name(first = firstName), isFavorite = false)
         viewModel.setUsers(listOf(user))
 
-        println("Hello StackOverflow")
-        println("---> "+ viewModel.user.value.firstOrNull().toString())
-        //log("---> "+ viewModel.user.value.firstOrNull().toString())
-        viewModel.getUsers()
-        println("---> "+ viewModel.user.value.firstOrNull().toString())
- /*       assert(user.isFavorite)
-        assert(viewModel.user.value.firstOrNull { it?.name?.first == firstName } == user)
-        */
+        // When
+        viewModel.isFavorite(user)
 
         // Then
-       // assert(user.isFavorite)
-        println("---> "+ viewModel.user.value.firstOrNull().toString())
+        assert(viewModel.isFavorite(user) == false)
+    }
 
-    }*/
 
 }

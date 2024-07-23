@@ -86,8 +86,7 @@ class FavoriteViewModel @Inject constructor(private val getUserFavoritesUseCase:
             }
         }
     }
-
-    fun updateLocalList() {}
+    
 
 }
 
