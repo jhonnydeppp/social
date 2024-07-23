@@ -20,7 +20,7 @@ import com.jhonny.social.presenter.entities.UserItemPresentation
 import com.jhonny.social.presenter.favorites.FavoritesScreen
 import com.jhonny.social.presenter.main.MainScreen
 import com.jhonny.social.presenter.navigation.AppScreens
-import com.jhonny.social.ui.theme.Blue80
+import com.jhonny.social.ui.theme.Grey
 import com.jhonny.social.util.parcelable
 
 @Composable
@@ -37,7 +37,7 @@ fun TabbedScreen() {
     Scaffold(
         topBar = {
             TabRow(
-                backgroundColor = Blue80,
+                backgroundColor = Grey,
                 selectedTabIndex = screens.indexOfFirst { screen ->
                     screen.route == currentRoute
                 }.coerceAtLeast(0),
